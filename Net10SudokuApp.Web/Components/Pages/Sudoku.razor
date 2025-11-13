@@ -1,0 +1,82 @@
+@page "/sudoku"
+@using Net10SudokuApp.Web.Components
+
+<PageTitle>Sudoku - Interactive Game</PageTitle>
+
+<div class="container mt-4">
+    <h3>Sudoku</h3>
+    
+    <!-- Critical diagnostic -->
+    <div class="alert @(isInteractive ? "alert-success" : "alert-danger")">
+        <strong>Component Status:</strong> 
+        @if (isInteractive)
+        {
+            <span>? Interactive mode is ACTIVE</span>
+        }
+        else
+        {
+            <span>? Component is in STATIC mode (no interactivity)</span>
+        }
+        <br />
+        <small>Render count: @renderCount | OnAfterRender called: @afterRenderCalled</small>
+    </div>
+    
+    <div class="alert alert-info">
+        <strong>Quick Test:</strong> 
+        <button class="btn btn-sm btn-primary" @onclick="QuickTest">Test Interactivity (Clicks: @testClicks)</button>
+        @if (testClicks > 0)
+        {
+            <span class="text-success ms-2">? Blazor Server is working!</span>
+        }
+    </div>
+
+    <div class="alert alert-warning">
+        <strong>Debug Info:</strong> 
+        @if (testClicks == 0)
+        {
+            <span>If the test button above doesn't work:</span>
+            <ul class="mb-0 mt-1">
+                <li>Watch the red banner at top of page</li>
+                <li>Open browser console (F12) for detailed logs</li>
+                <li>Try <a href="/diagnostic">minimal diagnostic page</a></li>
+                <li>Check if running through Aspire - may need direct Web project URL</li>
+            </ul>
+        }
+        else
+        {
+            <span>Interactivity is working! Sudoku controls should work too.</span>
+        }
+    </div>
+
+    <SudokuBoard />
+</div>
+
+@code {
+    private int testClicks = 0;
+    private bool isInteractive = false;
+    private int renderCount = 0;
+    private bool afterRenderCalled = false;
+    
+    protected override void OnInitialized()
+    {
+        Console.WriteLine("[Sudoku.razor] OnInitialized called");
+        isInteractive = true; // If this runs, component initialized
+    }
+    
+    protected override void OnAfterRender(bool firstRender)
+    {
+        afterRenderCalled = true;
+        renderCount++;
+        
+        if (firstRender)
+        {
+            Console.WriteLine("[Sudoku.razor] First render complete");
+        }
+    }
+    
+    private void QuickTest()
+    {
+        testClicks++;
+        Console.WriteLine($"[Sudoku.razor] Quick test clicked: {testClicks}");
+    }
+}

@@ -1,0 +1,49 @@
+@page "/diagnostic"
+
+<PageTitle>Blazor Diagnostic</PageTitle>
+
+<style>
+    .success { color: green; }
+    .error { color: red; }
+</style>
+
+<h1>Minimal Blazor Server Test</h1>
+<p>This is a minimal page to test if Blazor Server interactivity works at all.</p>
+
+<div class="card p-3 mb-3">
+    <button class="btn btn-primary" @onclick="TestClick">Test Button (Clicks: @clickCount)</button>
+    
+    <p class="mt-2 @(clickCount > 0 ? "success" : "error")">
+        @if (clickCount > 0)
+        {
+            <strong>? SUCCESS: Blazor Server is working! Button clicked @clickCount times.</strong>
+        }
+        else
+        {
+            <strong>? If clicking the button doesn't work, Blazor Server is not functioning.</strong>
+        }
+    </p>
+</div>
+
+<hr />
+
+<div class="card p-3">
+    <h3>Checklist:</h3>
+    <ol>
+        <li>Open browser DevTools (F12)</li>
+        <li>Go to Console tab</li>
+        <li>Look for "Blazor" related messages</li>
+        <li>Check Network tab for WebSocket connection</li>
+        <li>Verify no 404 errors for _framework files</li>
+    </ol>
+</div>
+
+@code {
+    private int clickCount = 0;
+    
+    private void TestClick()
+    {
+        clickCount++;
+        Console.WriteLine($"DIAGNOSTIC: Button clicked {clickCount} times");
+    }
+}

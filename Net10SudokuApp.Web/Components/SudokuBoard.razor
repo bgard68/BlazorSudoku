@@ -1,0 +1,440 @@
+﻿@* Render mode is configured at the host (Program.cs) using AddInteractiveServerRenderMode(). Do not add @rendermode directives inside components. *@
+@namespace Net10SudokuApp.Web.Components
+@using Net10SudokuApp.Web.Domain.Models
+@using Net10SudokuApp.Web.Application.Interfaces
+@inject ISudokuGenerator Generator
+@inject ISudokuSolver Solver
+@inject ISudokuValidator Validator
+@inject IJSRuntime JSRuntime
+@using Microsoft.AspNetCore.Components.Web
+
+@if (!string.IsNullOrEmpty(_initError))
+{
+    <div class="alert alert-danger">Initialization error: @_initError</div>
+}
+
+<div class="sudoku-container" tabindex="0" @onkeydown="HandleKeyDown" @ref="_containerRef">
+    <div class="controls mb-3">
+        <div class="difficulty-buttons">
+            <button type="button" class="btn-difficulty btn-difficulty-easy" @onclick="@(() => NewPuzzle(Difficulty.Easy))">
+                Easy
+            </button>
+            <button type="button" class="btn-difficulty btn-difficulty-medium" @onclick="@(() => NewPuzzle(Difficulty.Medium))">
+                Medium
+            </button>
+            <button type="button" class="btn-difficulty btn-difficulty-hard" @onclick="@(() => NewPuzzle(Difficulty.Hard))">
+                Hard
+            </button>
+        </div>
+    </div>
+
+    <div class="game-area">
+        <div class="sudoku-grid">
+            @for (int r = 0; r < 9; r++)
+            {
+                var row = r;
+                <div class="sudoku-row">
+                    @for (int c = 0; c < 9; c++)
+                    {
+                        var col = c;
+                        var cell = Cells[row, col];
+                        var css = "sudoku-cell";
+                        if (cell.IsSelected) css += " selected";
+                        if (cell.IsConflict) css += " conflict";
+                        if (cell.IsFixed) css += " fixed";
+                        if (cell.JustPlaced) css += " just-placed";
+
+                        <div class="@css" @onclick="@(() => SelectCell(row, col))">
+                            @if (cell.Value != 0)
+                            {
+                                <span>@cell.Value</span>
+                            }
+                            else
+                            {
+                                <span class="placeholder"></span>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="action-buttons-vertical">
+            <button type="button" class="btn-action btn-hint" @onclick="Hint" disabled="@(!HasSelection)">
+                Hint
+            </button>
+            <button type="button" class="btn-action btn-validate" @onclick="ValidateBoard">
+                Validate
+            </button>
+            <button type="button" class="btn-action btn-solve" @onclick="SolvePuzzle">
+                Solve
+            </button>
+            <button type="button" class="btn-action btn-clear-all" @onclick="ClearAllUserEntries">
+                Clear All
+            </button>
+        </div>
+    </div>
+
+    <div class="digit-buttons mt-3">
+        @for (int n = 1; n <= 9; n++)
+        {
+            var num = n;
+            <button type="button" class="btn btn-outline-dark me-1" @onclick="@(() => PlaceNumber(num))" disabled="@(!HasSelection)">@num</button>
+        }
+        <button type="button" class="btn btn-outline-warning ms-2" @onclick="ClearSelected" disabled="@(!HasSelection)">Clear</button>
+    </div>
+    <div>
+        <br /> 
+         <br /> 
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+    </div>
+    @if (_showKeyboardHint)
+    {
+        <div class="keyboard-hint">
+            <strong>Keyboard Controls:</strong><br />
+            <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> Navigate<br />
+            <kbd>1</kbd>-<kbd>9</kbd> Place number<br />
+            <kbd>Delete</kbd> / <kbd>Backspace</kbd> Clear cell<br />
+            <kbd>Esc</kbd> Deselect
+        </div>
+    }
+</div>
+
+@code {
+    private Cell[,] Cells = new Cell[9, 9];
+    private SudokuPuzzle _puzzle = new();
+    private SudokuPuzzle _solved = new();
+    private string? _initError;
+    private ElementReference _containerRef;
+    private bool _showKeyboardHint = true;
+    private System.Threading.Timer? _hintTimer;
+    private System.Threading.Timer? _animationTimer;
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            Console.WriteLine("[SudokuBoard] OnInitialized");
+            InitCells();
+            NewPuzzle(Difficulty.Medium);
+            
+            // Hide keyboard hint after 10 seconds
+            _hintTimer = new System.Threading.Timer(_ => 
+            {
+                _showKeyboardHint = false;
+                InvokeAsync(StateHasChanged);
+            }, null, TimeSpan.FromSeconds(10), Timeout.InfiniteTimeSpan);
+        }
+        catch (Exception ex)
+        {
+            _initError = ex.Message;
+            Console.Error.WriteLine($"[SudokuBoard] Init error: {ex}");
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                await JSRuntime.InvokeVoidAsync("eval", "document.querySelector('.sudoku-container')?.focus()");
+            }
+            catch { /* Focus is optional */ }
+        }
+    }
+
+    public void Dispose()
+    {
+        _hintTimer?.Dispose();
+        _animationTimer?.Dispose();
+    }
+
+    private void InitCells()
+    {
+        for (int r = 0; r < 9; r++)
+            for (int c = 0; c < 9; c++)
+                Cells[r, c] = new Cell { Row = r, Col = c };
+    }
+
+    private async void HandleKeyDown(KeyboardEventArgs e)
+    {
+        Console.WriteLine($"[SudokuBoard] Key pressed: {e.Key}");
+
+        var selected = SelectedCell;
+        
+        switch (e.Key)
+        {
+            case "ArrowUp":
+                if (selected == null) SelectCell(8, 4); // Start in middle-bottom
+                else SelectCell(selected.Value.r > 0 ? selected.Value.r - 1 : 8, selected.Value.c);
+                break;
+
+            case "ArrowDown":
+                if (selected == null) SelectCell(0, 4); // Start in middle-top
+                else SelectCell(selected.Value.r < 8 ? selected.Value.r + 1 : 0, selected.Value.c);
+                break;
+
+            case "ArrowLeft":
+                if (selected == null) SelectCell(4, 8); // Start in middle-right
+                else SelectCell(selected.Value.r, selected.Value.c > 0 ? selected.Value.c - 1 : 8);
+                break;
+
+            case "ArrowRight":
+                if (selected == null) SelectCell(4, 0); // Start in middle-left
+                else SelectCell(selected.Value.r, selected.Value.c < 8 ? selected.Value.c + 1 : 0);
+                break;
+
+            case "1": case "2": case "3": case "4": case "5":
+            case "6": case "7": case "8": case "9":
+                if (selected != null && int.TryParse(e.Key, out int num))
+                {
+                    PlaceNumber(num);
+                }
+                break;
+
+            case "Delete":
+            case "Backspace":
+                if (selected != null) ClearSelected();
+                break;
+
+            case "Escape":
+                ClearAllSelections();
+                break;
+
+            case "h":
+            case "H":
+                if (selected != null) Hint();
+                break;
+        }
+
+        await Task.CompletedTask;
+    }
+
+    private void NewPuzzle(Difficulty difficulty)
+    {
+        Console.WriteLine($"[SudokuBoard] NewPuzzle: {difficulty}");
+        
+        if (Generator == null)
+        {
+            _puzzle = CreateFallbackPuzzle();
+            _solved = Solver?.SolveCopy(_puzzle) ?? _puzzle.Clone();
+        }
+        else
+        {
+            _puzzle = Generator.Generate(difficulty);
+            _solved = Solver?.SolveCopy(_puzzle) ?? new SudokuPuzzle();
+        }
+
+        ApplyPuzzleToCells(_puzzle);
+        ClearSelectionAndConflicts();
+    }
+
+    private SudokuPuzzle CreateFallbackPuzzle()
+    {
+        var p = new SudokuPuzzle();
+        for (int i = 0; i < 9; i++) p.Grid[0, i] = i + 1;
+        p.Grid[1, 0] = 4; p.Grid[1, 4] = 5; p.Grid[2, 7] = 3;
+        p.Grid[3, 3] = 6; p.Grid[4, 4] = 7; p.Grid[5, 5] = 2;
+        p.Grid[6, 2] = 8; p.Grid[7, 6] = 1; p.Grid[8, 1] = 9;
+        return p;
+    }
+
+    private void ApplyPuzzleToCells(SudokuPuzzle puzzle)
+    {
+        for (int r = 0; r < 9; r++)
+            for (int c = 0; c < 9; c++)
+            {
+                Cells[r, c].Value = puzzle.Grid[r, c];
+                Cells[r, c].IsFixed = puzzle.Grid[r, c] != 0;
+                Cells[r, c].IsConflict = false;
+                Cells[r, c].IsSelected = false;
+                Cells[r, c].JustPlaced = false;
+            }
+    }
+
+    private void SelectCell(int r, int c)
+    {
+        Console.WriteLine($"[SudokuBoard] SelectCell: ({r}, {c})");
+        
+        for (int rr = 0; rr < 9; rr++)
+            for (int cc = 0; cc < 9; cc++)
+                Cells[rr, cc].IsSelected = false;
+
+        Cells[r, c].IsSelected = true;
+    }
+
+    private void ClearAllSelections()
+    {
+        for (int r = 0; r < 9; r++)
+            for (int c = 0; c < 9; c++)
+                Cells[r, c].IsSelected = false;
+    }
+
+    private void ClearAllUserEntries()
+    {
+        Console.WriteLine("[SudokuBoard] ClearAllUserEntries");
+        
+        // Clear all non-fixed cells
+        for (int r = 0; r < 9; r++)
+        {
+            for (int c = 0; c < 9; c++)
+            {
+                if (!Cells[r, c].IsFixed)
+                {
+                    Cells[r, c].Value = 0;
+                    Cells[r, c].JustPlaced = false;
+                    _puzzle.Grid[r, c] = 0;
+                }
+            }
+        }
+        
+        // Clear conflicts after removing all user entries
+        ValidateBoard();
+    }
+
+    private bool HasSelection
+    {
+        get
+        {
+            for (int r = 0; r < 9; r++)
+                for (int c = 0; c < 9; c++)
+                    if (Cells[r, c].IsSelected) return true;
+            return false;
+        }
+    }
+
+    private (int r, int c)? SelectedCell
+    {
+        get
+        {
+            for (int r = 0; r < 9; r++)
+                for (int c = 0; c < 9; c++)
+                    if (Cells[r, c].IsSelected) return (r, c);
+            return null;
+        }
+    }
+
+    private void PlaceNumber(int n)
+    {
+        Console.WriteLine($"[SudokuBoard] PlaceNumber: {n}");
+        
+        var sel = SelectedCell;
+        if (sel == null) return;
+        
+        var (r, c) = sel.Value;
+        if (Cells[r, c].IsFixed) return;
+        
+        // Clear all "just placed" flags
+        for (int rr = 0; rr < 9; rr++)
+            for (int cc = 0; cc < 9; cc++)
+                Cells[rr, cc].JustPlaced = false;
+
+        Cells[r, c].Value = n;
+        Cells[r, c].JustPlaced = true;
+        _puzzle.Grid[r, c] = n;
+        
+        ValidateBoard();
+
+        // Remove animation flag after animation completes
+        _animationTimer?.Dispose();
+        _animationTimer = new System.Threading.Timer(_ =>
+        {
+            Cells[r, c].JustPlaced = false;
+            InvokeAsync(StateHasChanged);
+        }, null, TimeSpan.FromMilliseconds(500), Timeout.InfiniteTimeSpan);
+    }
+
+    private void ClearSelected()
+    {
+        var sel = SelectedCell;
+        if (sel == null) return;
+        
+        var (r, c) = sel.Value;
+        if (Cells[r, c].IsFixed) return;
+        
+        Cells[r, c].Value = 0;
+        Cells[r, c].JustPlaced = false;
+        _puzzle.Grid[r, c] = 0;
+        ValidateBoard();
+    }
+
+    private void Hint()
+    {
+        var sel = SelectedCell;
+        if (sel == null) return;
+        
+        var (r, c) = sel.Value;
+        if (_solved == null || _solved.Grid[r, c] == 0) return;
+        if (Cells[r, c].IsFixed) return;
+        
+        // Clear all "just placed" flags
+        for (int rr = 0; rr < 9; rr++)
+            for (int cc = 0; cc < 9; cc++)
+                Cells[rr, cc].JustPlaced = false;
+
+        Cells[r, c].Value = _solved.Grid[r, c];
+        Cells[r, c].JustPlaced = true;
+        _puzzle.Grid[r, c] = _solved.Grid[r, c];
+        
+        ValidateBoard();
+
+        // Remove animation flag after animation completes
+        _animationTimer?.Dispose();
+        _animationTimer = new System.Threading.Timer(_ =>
+        {
+            Cells[r, c].JustPlaced = false;
+            InvokeAsync(StateHasChanged);
+        }, null, TimeSpan.FromMilliseconds(500), Timeout.InfiniteTimeSpan);
+    }
+
+    private void SolvePuzzle()
+    {
+        Console.WriteLine("[SudokuBoard] SolvePuzzle");
+        
+        if (Solver != null)
+        {
+            var solved = Solver.SolveCopy(_puzzle);
+            if (solved != null) ApplySolvedToCells(solved);
+        }
+        else if (_solved != null)
+        {
+            ApplySolvedToCells(_solved);
+        }
+    }
+
+    private void ApplySolvedToCells(SudokuPuzzle solved)
+    {
+        for (int r = 0; r < 9; r++)
+            for (int c = 0; c < 9; c++)
+            {
+                Cells[r, c].Value = solved.Grid[r, c];
+                _puzzle.Grid[r, c] = solved.Grid[r, c];
+            }
+        ValidateBoard();
+    }
+
+    private void ValidateBoard()
+    {
+        var conflicts = Validator?.Validate(_puzzle) ?? new bool[9,9];
+        for (int r = 0; r < 9; r++)
+            for (int c = 0; c < 9; c++)
+                Cells[r, c].IsConflict = conflicts[r, c];
+    }
+
+    private void ClearSelectionAndConflicts()
+    {
+        for (int r = 0; r < 9; r++)
+            for (int c = 0; c < 9; c++)
+            {
+                Cells[r, c].IsSelected = false;
+                Cells[r, c].IsConflict = false;
+                Cells[r, c].JustPlaced = false;
+            }
+    }
+}

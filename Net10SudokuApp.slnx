@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Net10SudokuApp.ApiService/Net10SudokuApp.ApiService.csproj" />
+  <Project Path="Net10SudokuApp.AppHost/Net10SudokuApp.AppHost.csproj" />
+  <Project Path="Net10SudokuApp.ServiceDefaults/Net10SudokuApp.ServiceDefaults.csproj" />
+  <Project Path="Net10SudokuApp.Web/Net10SudokuApp.Web.csproj" />
+</Solution>

@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["Net10SudokuApp.Web.styles.css"]" />
+    <link rel="stylesheet" href="/css/sudoku.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+    <ImportMap />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <HeadOutlet />
+</head>
+
+<body>
+    <Routes />
+    
+    <!-- Diagnostic banner that disappears when Blazor connects -->
+    <div id="blazor-status" style="position: fixed; top: 0; left: 0; right: 0; background: #ff6b6b; color: white; padding: 10px; text-align: center; z-index: 9999; font-family: Arial;">
+        ⚠️ Waiting for Blazor Server to connect... If this doesn't disappear, check browser console (F12)
+    </div>
+    
+    <script>
+        console.log('%c[Blazor Diagnostics] Starting...', 'color: blue; font-weight: bold;');
+        
+        // Track when Blazor script loads
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('%c[Blazor Diagnostics] DOM loaded', 'color: green;');
+        });
+        
+        // Monitor for Blazor connection
+        let checkCount = 0;
+        const maxChecks = 50;
+        const checkInterval = setInterval(function() {
+            checkCount++;
+            
+            // Check if Blazor object exists
+            if (typeof Blazor !== 'undefined') {
+                console.log('%c[Blazor Diagnostics] ✓ Blazor object found!', 'color: green; font-weight: bold;');
+                
+                // Hide warning banner
+                const banner = document.getElementById('blazor-status');
+                if (banner) {
+                    banner.style.background = '#51cf66';
+                    banner.textContent = '✓ Blazor Server connected!';
+                    setTimeout(() => banner.style.display = 'none', 2000);
+                }
+                
+                clearInterval(checkInterval);
+            } else if (checkCount >= maxChecks) {
+                console.error('%c[Blazor Diagnostics] ✗ Blazor failed to load after ' + (maxChecks / 10) + ' seconds', 'color: red; font-weight: bold;');
+                
+                const banner = document.getElementById('blazor-status');
+                if (banner) {
+                    banner.textContent = '✗ Blazor Server failed to connect! Check console for errors.';
+                }
+                
+                clearInterval(checkInterval);
+            } else if (checkCount % 10 === 0) {
+                console.log('[Blazor Diagnostics] Still waiting... (' + checkCount/10 + 's)');
+            }
+        }, 100);
+    </script>
+    
+    <script src="_framework/blazor.web.js" onerror="console.error('Failed to load blazor.web.js')"></script>
+    
+    <script>
+        // Verify script loaded
+        console.log('%c[Blazor Diagnostics] blazor.web.js script tag processed', 'color: blue;');
+    </script>
+</body>
+
+</html>

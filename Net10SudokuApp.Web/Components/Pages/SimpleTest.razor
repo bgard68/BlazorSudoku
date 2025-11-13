@@ -1,0 +1,23 @@
+@page "/simpletest"
+
+<PageTitle>Simple Test</PageTitle>
+
+<h2>Ultra-Simple Interactivity Test</h2>
+
+<button class="btn btn-primary btn-lg" @onclick="Clicked">
+    CLICK ME (Count: @count)
+</button>
+
+<p class="mt-3">@message</p>
+
+@code {
+    private int count = 0;
+    private string message = "Button not clicked yet";
+    
+    private void Clicked()
+    {
+        count++;
+        message = $"Button clicked {count} time(s)! ? Blazor Server is WORKING!";
+        Console.WriteLine($"[SimpleTest] Button clicked: {count}");
+    }
+}

@@ -1,0 +1,300 @@
+﻿@page "/"
+
+<PageTitle>Sudoku - Home</PageTitle>
+
+<div class="home-container">
+    <div class="hero-section">
+        <h1 class="display-3 fw-bold text-primary mb-3">Welcome to Sudoku</h1>
+        <p class="lead text-muted mb-4">Master the world's most popular logic puzzle</p>
+        <div class="d-flex gap-3 justify-content-center">
+            <a href="/sudoku" class="btn btn-primary btn-lg px-5">Play Now</a>
+            <a href="#about" class="btn btn-outline-secondary btn-lg px-5">Learn More</a>
+        </div>
+    </div>
+
+    <hr class="my-5" />
+
+    <section id="about" class="content-section mb-5">
+        <h2 class="section-title">What is Sudoku?</h2>
+        <div class="row">
+            <div class="col-md-8">
+                <p class="lead">
+                    Sudoku is a logic-based number-placement puzzle that has captivated millions worldwide. 
+                    The objective is to fill a 9×9 grid with digits so that each column, each row, and each 
+                    of the nine 3×3 subgrids contains all of the digits from 1 to 9.
+                </p>
+                <p>
+                    What makes Sudoku fascinating is that it requires no mathematical calculations—only logic, 
+                    pattern recognition, and patience. Each puzzle has a unique solution that can be reached 
+                    through logical deduction alone.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <div class="info-card">
+                    <h5 class="fw-bold">Quick Facts</h5>
+                    <ul class="list-unstyled">
+                        <li>📊 Grid: 9×9 (81 cells)</li>
+                        <li>🔢 Numbers: 1-9</li>
+                        <li>🎯 Regions: 9 rows, 9 columns, 9 boxes</li>
+                        <li>🧩 Solution: Always unique</li>
+                        <li>🧠 Skills: Logic & pattern recognition</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section mb-5">
+        <h2 class="section-title">History of Sudoku</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-marker">1783</div>
+                <div class="timeline-content">
+                    <h5>Latin Squares</h5>
+                    <p>
+                        Swiss mathematician <strong>Leonhard Euler</strong> created "Latin Squares," 
+                        a mathematical concept that would later inspire Sudoku. These were n×n grids 
+                        filled with n different symbols, ensuring each symbol appeared once per row and column.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-marker">1979</div>
+                <div class="timeline-content">
+                    <h5>Modern Sudoku is Born</h5>
+                    <p>
+                        American architect <strong>Howard Garns</strong> created the first modern Sudoku 
+                        puzzle, originally called <em>"Number Place"</em>. It was published in Dell Magazines' 
+                        puzzle books. Garns added the crucial 3×3 regional constraint to Euler's concept.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-marker">1984</div>
+                <div class="timeline-content">
+                    <h5>Arrives in Japan</h5>
+                    <p>
+                        The puzzle was introduced to Japan by puzzle publisher <strong>Nikoli</strong>, 
+                        who named it <strong>"Sūji wa dokushin ni kagiru"</strong> (数字は独身に限る), 
+                        meaning "the digits must be single" or "the digits are limited to one occurrence." 
+                        This was later shortened to <strong>"Sudoku"</strong> (数独), combining 
+                        <em>sū</em> (number) and <em>doku</em> (single).
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-marker">2004</div>
+                <div class="timeline-content">
+                    <h5>Global Phenomenon</h5>
+                    <p>
+                        <strong>Wayne Gould</strong>, a retired Hong Kong judge, discovered Sudoku during 
+                        a trip to Japan. He spent six years developing a computer program to generate puzzles 
+                        and convinced <em>The Times</em> (London) to publish them. The puzzle quickly spread 
+                        to other newspapers worldwide.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-marker">2005-Present</div>
+                <div class="timeline-content">
+                    <h5>Worldwide Popularity</h5>
+                    <p>
+                        Sudoku became a global sensation, appearing in newspapers, puzzle books, mobile apps, 
+                        and websites. World Sudoku Championships began in 2006. Today, millions solve Sudoku 
+                        puzzles daily, with dedicated apps, tournaments, and even Sudoku variants emerging.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section mb-5">
+        <h2 class="section-title">How to Play</h2>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="rule-card">
+                    <div class="rule-number">1</div>
+                    <h4>Row Rule</h4>
+                    <p>Each <strong>horizontal row</strong> must contain the digits 1-9 without repetition.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="rule-card">
+                    <div class="rule-number">2</div>
+                    <h4>Column Rule</h4>
+                    <p>Each <strong>vertical column</strong> must contain the digits 1-9 without repetition.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="rule-card">
+                    <div class="rule-number">3</div>
+                    <h4>Box Rule</h4>
+                    <p>Each <strong>3×3 box</strong> (also called regions or blocks) must contain the digits 1-9 without repetition.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="rule-card">
+                    <div class="rule-number">4</div>
+                    <h4>Given Numbers</h4>
+                    <p>Some cells are <strong>pre-filled</strong> and cannot be changed. Use logic to fill the remaining empty cells.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section mb-5">
+        <h2 class="section-title">Solving Strategies</h2>
+        <div class="accordion" id="strategiesAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#strategy1">
+                        <strong>Beginner: Naked Singles</strong>
+                    </button>
+                </h2>
+                <div id="strategy1" class="accordion-collapse collapse show" data-bs-parent="#strategiesAccordion">
+                    <div class="accordion-body">
+                        Look for cells where only one number can fit. Check what numbers are already in the same row, 
+                        column, and 3×3 box. If only one number is missing, that's your answer!
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#strategy2">
+                        <strong>Beginner: Hidden Singles</strong>
+                    </button>
+                </h2>
+                <div id="strategy2" class="accordion-collapse collapse" data-bs-parent="#strategiesAccordion">
+                    <div class="accordion-body">
+                        Within a row, column, or box, look for a number that can only go in one cell. Even if that cell 
+                        could hold multiple numbers, if a specific number has only one valid position, place it there.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#strategy3">
+                        <strong>Intermediate: Naked Pairs/Triples</strong>
+                    </button>
+                </h2>
+                <div id="strategy3" class="accordion-collapse collapse" data-bs-parent="#strategiesAccordion">
+                    <div class="accordion-body">
+                        When two cells in a row, column, or box can only contain the same two numbers, those numbers 
+                        can be eliminated from other cells in that group. This works for triples and quadruples too!
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#strategy4">
+                        <strong>Advanced: X-Wing</strong>
+                    </button>
+                </h2>
+                <div id="strategy4" class="accordion-collapse collapse" data-bs-parent="#strategiesAccordion">
+                    <div class="accordion-body">
+                        If a candidate number appears in only two positions across two rows (or columns), and these 
+                        positions align vertically (or horizontally), you can eliminate that candidate from the 
+                        intersecting columns (or rows).
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section mb-5">
+        <h2 class="section-title">Benefits of Playing Sudoku</h2>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🧠</div>
+                    <h5>Improves Memory</h5>
+                    <p>Regular Sudoku play helps improve short-term memory and recall abilities.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <h5>Enhances Focus</h5>
+                    <p>Solving puzzles requires concentration, training your mind to focus on tasks.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <h5>Boosts Logic Skills</h5>
+                    <p>Sudoku strengthens logical thinking and problem-solving abilities.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="benefit-card">
+                    <div class="benefit-icon">😌</div>
+                    <h5>Reduces Stress</h5>
+                    <p>The meditative nature of puzzle-solving can help reduce anxiety and stress.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎓</div>
+                    <h5>Mental Exercise</h5>
+                    <p>Like physical exercise for your body, Sudoku provides a workout for your brain.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🏆</div>
+                    <h5>Sense of Achievement</h5>
+                    <p>Completing puzzles provides satisfaction and builds confidence.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section mb-5">
+        <h2 class="section-title">Tips for Beginners</h2>
+        <div class="tips-grid">
+            <div class="tip-card">
+                <span class="tip-badge">Tip #1</span>
+                <h5>Start with Easy Puzzles</h5>
+                <p>Begin with easier difficulties to learn basic patterns and build confidence.</p>
+            </div>
+            <div class="tip-card">
+                <span class="tip-badge">Tip #2</span>
+                <h5>Scan Systematically</h5>
+                <p>Work through numbers 1-9 systematically, looking where each can be placed.</p>
+            </div>
+            <div class="tip-card">
+                <span class="tip-badge">Tip #3</span>
+                <h5>Focus on Constraints</h5>
+                <p>Look for rows, columns, or boxes that are nearly complete—easier to solve!</p>
+            </div>
+            <div class="tip-card">
+                <span class="tip-badge">Tip #4</span>
+                <h5>Use Pencil Marks</h5>
+                <p>Note possible candidates in cells to track your logical deductions.</p>
+            </div>
+            <div class="tip-card">
+                <span class="tip-badge">Tip #5</span>
+                <h5>Take Breaks</h5>
+                <p>If stuck, take a break and return with fresh eyes. Solutions often appear clearer.</p>
+            </div>
+            <div class="tip-card">
+                <span class="tip-badge">Tip #6</span>
+                <h5>Practice Regularly</h5>
+                <p>Like any skill, regular practice improves your speed and technique.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section text-center">
+        <h2 class="mb-4">Ready to Challenge Your Mind?</h2>
+        <p class="lead mb-4">Start solving Sudoku puzzles now with our interactive game!</p>
+        <a href="/sudoku" class="btn btn-primary btn-lg px-5">Play Sudoku</a>
+    </section>
+</div>

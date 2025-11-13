@@ -1,0 +1,59 @@
+@page "/test"
+
+<PageTitle>Interactivity Test</PageTitle>
+
+<h3>Blazor Interactivity Test</h3>
+
+<div class="card p-3 mb-3">
+    <h5>Click Test</h5>
+    <button class="btn btn-primary" @onclick="Increment">Click Counter: @count</button>
+    <p class="mt-2">If the counter increments, Blazor Server is working!</p>
+    <p class="text-muted">Current count: <strong>@count</strong></p>
+</div>
+
+<div class="card p-3 mb-3">
+    <h5>Input Test</h5>
+    <input type="text" class="form-control" @bind="inputText" @bind:event="oninput" placeholder="Type something..." />
+    <p class="mt-2">You typed: <strong>@inputText</strong></p>
+</div>
+
+<div class="card p-3">
+    <h5>Diagnostics</h5>
+    <ul>
+        <li>Page loaded at: @loadTime</li>
+        <li>Render count: @renderCount</li>
+        <li>Button clicks: @count</li>
+    </ul>
+</div>
+
+<div class="alert alert-info mt-3">
+    <strong>If nothing works:</strong>
+    <ol>
+        <li>Check browser console (F12) for JavaScript errors</li>
+        <li>Look for SignalR connection errors</li>
+        <li>Verify "_framework/blazor.web.js" loads successfully</li>
+        <li>Check Network tab for failed WebSocket connections</li>
+    </ol>
+</div>
+
+@code {
+    private int count = 0;
+    private string inputText = "";
+    private string loadTime = DateTime.Now.ToString("HH:mm:ss");
+    private int renderCount = 0;
+    
+    protected override void OnAfterRender(bool firstRender)
+    {
+        renderCount++;
+        if (firstRender)
+        {
+            Console.WriteLine("Test page rendered for first time - Blazor is loading");
+        }
+    }
+    
+    private void Increment()
+    {
+        count++;
+        Console.WriteLine($"Button clicked! Count is now: {count}");
+    }
+}

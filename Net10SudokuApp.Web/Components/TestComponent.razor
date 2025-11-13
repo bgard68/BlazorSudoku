@@ -1,0 +1,10 @@
+@namespace Net10SudokuApp.Web.Components
+
+<div class="alert alert-success">Test component loaded - interactive</div>
+<button class="btn btn-primary" @onclick="OnClick">Click me</button>
+<p>Clicked: @count times</p>
+
+@code {
+    private int count = 0;
+    private void OnClick() => count++;
+}}
