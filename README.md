@@ -58,7 +58,7 @@ An interactive Sudoku puzzle game built with .NET 10 Blazor Server, featuring pr
 
 ### Prerequisites
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
-- Visual Studio 2022 (v17.12+) or Visual Studio Code
+- Visual Studio 2026 or Visual Studio Code
 - Modern web browser (Chrome, Edge, Firefox, Safari)
 
 ### Installation
@@ -183,7 +183,7 @@ The application follows clean architecture principles:
 - **SignalR**: Real-time communication
 
 ### Development
-- **Visual Studio 2022**: Primary IDE
+- **Visual Studio 2026**: Primary IDE
 - **Aspire**: Cloud-native orchestration
 - **Hot Reload**: Fast development cycle
 
@@ -209,7 +209,7 @@ The application follows clean architecture principles:
 ### Validation
 - **Row Check**: No duplicates in rows
 - **Column Check**: No duplicates in columns
-- **Box Check**: No duplicates in 3×3 boxes
+- **Box Check**: No duplicates in 3 3 boxes
 
 ---
 
@@ -340,8 +340,8 @@ If you found this project helpful, please consider:
 
 **Made with ?? using .NET 10 and Blazor**
 
-[Report Bug](https://github.com/YOUR-USERNAME/Sudoku-Blazor-Net10/issues) · 
-[Request Feature](https://github.com/YOUR-USERNAME/Sudoku-Blazor-Net10/issues) · 
+[Report Bug](https://github.com/YOUR-USERNAME/Sudoku-Blazor-Net10/issues)   
+[Request Feature](https://github.com/YOUR-USERNAME/Sudoku-Blazor-Net10/issues)   
 [Documentation](https://github.com/YOUR-USERNAME/Sudoku-Blazor-Net10/wiki)
 
 </div>
