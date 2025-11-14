@@ -20,6 +20,8 @@ RUN dotnet publish "Net10SudokuApp.Web.csproj" -c Release -o /app/publish /p:Use
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app
 EXPOSE 8080
+# NOTE: The application is configured to listen on HTTP only (port 8080).
+# It is assumed that HTTPS termination is handled by an external reverse proxy (e.g., in Container Apps).
 ENV ASPNETCORE_URLS=http://+:8080
 
 # Copy published app
