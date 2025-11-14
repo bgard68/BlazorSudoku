@@ -62,6 +62,14 @@ resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2024-02-02-p
   }
   tags: tags
 
+  // Aspire Dashboard for monitoring and observability
+  // Security: The dashboard is protected by Azure RBAC. Only users with Contributor, Owner,
+  // or Microsoft.App/managedEnvironments/write permissions can access it.
+  // Access is authenticated through Azure Portal or Azure CLI credentials.
+  // The dashboard endpoint is not publicly exposed - it's only accessible within the
+  // Container Apps Environment and requires Azure authentication.
+  // For production deployments, ensure proper RBAC role assignments are configured
+  // and regularly audit access to minimize the attack surface.
   resource aspireDashboard 'dotNetComponents' = {
     name: 'aspire-dashboard'
     properties: {
