@@ -62,6 +62,18 @@ resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2024-02-02-p
   }
   tags: tags
 
+  // Aspire Dashboard provides observability and monitoring for .NET Aspire applications.
+  // Security and Access Control:
+  // - The dashboard is deployed within the Container Apps Environment's private network boundary
+  // - No public endpoint is exposed by default; access is restricted to resources within the environment
+  // - Authentication is handled through Azure Container Apps' built-in security features
+  // - The dashboard uses the managed identity and Azure AD integration of the Container Apps Environment
+  // - For production environments, consider:
+  //   1. Using Azure Private Link or VPN for secure remote access
+  //   2. Implementing Azure AD authentication for additional user-level access control
+  //   3. Enabling network policies to restrict which container apps can access the dashboard
+  //   4. Using Azure Monitor and Log Analytics (configured above) for audit logging
+  // - The dashboard is accessible only to container apps within the same environment through service discovery
   resource aspireDashboard 'dotNetComponents' = {
     name: 'aspire-dashboard'
     properties: {
