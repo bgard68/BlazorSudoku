@@ -33,6 +33,16 @@ resource caeMiRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01
   }
 }
 
+resource logAnalyticsMiRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(logAnalyticsWorkspace.id, managedIdentity.id, subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '3913510d-42f4-4e42-8a64-420c390055eb'))
+  scope: logAnalyticsWorkspace
+  properties: {
+    principalId: managedIdentity.properties.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId:  subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '3913510d-42f4-4e42-8a64-420c390055eb')
+  }
+}
+
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
   name: 'law-${resourceToken}'
   location: location
@@ -47,6 +57,12 @@ resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10
 resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2024-02-02-preview' = {
   name: 'cae-${resourceToken}'
   location: location
+  identity: {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${managedIdentity.id}': {}
+    }
+  }
   properties: {
     workloadProfiles: [{
       workloadProfileType: 'Consumption'
@@ -56,12 +72,21 @@ resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2024-02-02-p
       destination: 'log-analytics'
       logAnalyticsConfiguration: {
         customerId: logAnalyticsWorkspace.properties.customerId
-        sharedKey: logAnalyticsWorkspace.listKeys().primarySharedKey
       }
     }
   }
   tags: tags
 
+  // Aspire Dashboard provides observability and monitoring for the application.
+  // Access Control: The dashboard is secured using Azure Container Apps' built-in authentication.
+  // By default, access is restricted to users with appropriate Azure RBAC permissions on the
+  // Container Apps Environment resource. For production environments, ensure that:
+  // 1. Only authorized users have 'Contributor' or 'Owner' roles on the resource group
+  // 2. Use Azure AD authentication to control dashboard access
+  // 3. Consider enabling Azure Container Apps authentication/authorization features
+  // 4. Review and configure ingress settings to restrict network access as needed
+  // For more information on securing the Aspire Dashboard, refer to:
+  // https://learn.microsoft.com/azure/container-apps/dotnet-aspire-dashboard
   resource aspireDashboard 'dotNetComponents' = {
     name: 'aspire-dashboard'
     properties: {
@@ -69,6 +94,16 @@ resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2024-02-02-p
     }
   }
 
+}
+
+// Role assignment for user/service principal as Contributor on Container App Environment
+resource caeContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!empty(principalId)) {
+  name: guid(containerAppEnvironment.id, principalId, subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c'))
+  scope: containerAppEnvironment
+  properties: {
+    principalId: principalId
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')
+  }
 }
 
 output MANAGED_IDENTITY_CLIENT_ID string = managedIdentity.properties.clientId
