@@ -20,14 +20,12 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddOutputCache();
 
-// Only configure API client in development (Aspire)
-if (builder.Environment.IsDevelopment())
+// Configure API client for all environments, using environment-based URL
+var apiServiceUrl = builder.Configuration["ApiService:BaseUrl"] ?? "https://apiservice";
+builder.Services.AddHttpClient<WeatherApiClient>(client =>
 {
-    builder.Services.AddHttpClient<WeatherApiClient>(client =>
-    {
-        client.BaseAddress = new("https+http://apiservice");
-    });
-}
+    client.BaseAddress = new Uri(apiServiceUrl);
+});
 
 // Register Sudoku services
 builder.Services.AddSingleton<ISudokuGenerator, SudokuService>();
