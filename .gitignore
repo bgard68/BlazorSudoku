@@ -636,6 +636,6 @@ appsettings.*.json
 !appsettings.Development.json
 .azure
 
-# Bicep build artifacts
+# Bicep compiled ARM templates
 infra/*.json
-!infra/*.parameters.json
+!infra/main.parameters.json
