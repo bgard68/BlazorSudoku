@@ -376,7 +376,7 @@
 @media (max-width: 768px) {
     .sudoku-container {
         max-width: 100%;
-        padding: 0 15px;
+        padding: 0 10px;
     }
 
     .game-area {
@@ -386,25 +386,33 @@
 
     .sudoku-grid {
         max-width: 100%;
+        width: 100%;
     }
 
     .action-buttons-vertical {
         flex-direction: row;
+        flex-wrap: wrap;
         width: 100%;
         min-width: auto;
+        justify-content: center;
     }
 
     .btn-action {
-        flex: 1;
+        flex-grow: 1;
+        flex-basis: calc(50% - 6px); /* Two buttons per row */
     }
 
     .btn-action:hover:not(:disabled) {
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
+
+    .digit-buttons {
+        margin-top: 15px;
+    }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 480px) {
     .controls {
         flex-direction: column;
         width: 100%;
@@ -413,18 +421,31 @@
     .difficulty-buttons {
         width: 100%;
         justify-content: center;
+        flex-wrap: wrap;
     }
     
     .btn-difficulty {
         flex: 1;
-        min-width: 0;
+        min-width: 100px;
     }
 
     .action-buttons-vertical {
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: stretch;
     }
 
     .btn-action {
-        min-width: calc(50% - 6px);
+        min-width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .digit-buttons button {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
+
+    .sudoku-cell {
+        font-size: 1rem;
     }
 }
