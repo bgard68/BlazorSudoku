@@ -635,3 +635,7 @@ appsettings.*.json
 !appsettings.json
 !appsettings.Development.json
 .azure
+
+# Bicep compiled ARM templates (generated files)
+infra/*.json
+!infra/*.parameters.json
