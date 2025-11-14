@@ -77,19 +77,16 @@ resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2024-02-02-p
   }
   tags: tags
 
-  // Aspire Dashboard deployment
-  // SECURITY NOTE: The Aspire Dashboard is deployed as a managed .NET component within the Container Apps Environment.
-  // Access control considerations:
-  // 1. Network Security: The dashboard is only accessible within the Container Apps Environment's virtual network by default.
-  //    External access requires explicit ingress configuration on container apps that reference this component.
-  // 2. Authentication: When accessed through a container app, authentication should be configured at the container app level
-  //    using Azure Container Apps built-in authentication (Easy Auth) or through application-level authentication.
-  // 3. Production Recommendation: For production environments, consider:
-  //    - Enabling Azure AD authentication on any container app that exposes the dashboard
-  //    - Restricting ingress to internal only or specific IP ranges
-  //    - Using Azure Private Link for secure access
-  //    - Implementing RBAC roles to control who can access the Container Apps Environment
-  // 4. The dashboard provides observability data (logs, metrics, traces) - ensure only authorized users can access it.
+  // Aspire Dashboard provides observability and monitoring for the application.
+  // Access Control: The dashboard is secured using Azure Container Apps' built-in authentication.
+  // By default, access is restricted to users with appropriate Azure RBAC permissions on the
+  // Container Apps Environment resource. For production environments, ensure that:
+  // 1. Only authorized users have 'Contributor' or 'Owner' roles on the resource group
+  // 2. Use Azure AD authentication to control dashboard access
+  // 3. Consider enabling Azure Container Apps authentication/authorization features
+  // 4. Review and configure ingress settings to restrict network access as needed
+  // For more information on securing the Aspire Dashboard, refer to:
+  // https://learn.microsoft.com/azure/container-apps/dotnet-aspire-dashboard
   resource aspireDashboard 'dotNetComponents' = {
     name: 'aspire-dashboard'
     properties: {
