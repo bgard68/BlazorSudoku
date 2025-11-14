@@ -62,6 +62,16 @@ resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2024-02-02-p
   }
   tags: tags
 
+  // Aspire Dashboard provides observability and monitoring for the application.
+  // Access Control: The dashboard is secured using Azure Container Apps' built-in authentication.
+  // By default, access is restricted to users with appropriate Azure RBAC permissions on the
+  // Container Apps Environment resource. For production environments, ensure that:
+  // 1. Only authorized users have 'Contributor' or 'Owner' roles on the resource group
+  // 2. Use Azure AD authentication to control dashboard access
+  // 3. Consider enabling Azure Container Apps authentication/authorization features
+  // 4. Review and configure ingress settings to restrict network access as needed
+  // For more information on securing the Aspire Dashboard, refer to:
+  // https://learn.microsoft.com/azure/container-apps/dotnet-aspire-dashboard
   resource aspireDashboard 'dotNetComponents' = {
     name: 'aspire-dashboard'
     properties: {
