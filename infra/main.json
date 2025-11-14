@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.38.33.27573",
-      "templateHash": "14506661993176072408"
+      "templateHash": "8012190354655379608"
     }
   },
   "parameters": {
@@ -73,7 +73,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.38.33.27573",
-              "templateHash": "10820824177945852527"
+              "templateHash": "2305647158455118751"
             }
           },
           "parameters": {
@@ -147,20 +147,6 @@
               ]
             },
             {
-              "condition": "[not(empty(parameters('principalId')))]",
-              "type": "Microsoft.Authorization/roleAssignments",
-              "apiVersion": "2022-04-01",
-              "scope": "[format('Microsoft.ContainerRegistry/registries/{0}', replace(format('acr-{0}', variables('resourceToken')), '-', ''))]",
-              "name": "[guid(resourceId('Microsoft.ContainerRegistry/registries', replace(format('acr-{0}', variables('resourceToken')), '-', '')), parameters('principalId'), subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d'))]",
-              "properties": {
-                "principalId": "[parameters('principalId')]",
-                "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')]"
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.ContainerRegistry/registries', replace(format('acr-{0}', variables('resourceToken')), '-', ''))]"
-              ]
-            },
-            {
               "type": "Microsoft.OperationalInsights/workspaces",
               "apiVersion": "2022-10-01",
               "name": "[format('law-{0}', variables('resourceToken'))]",
@@ -195,20 +181,6 @@
               "tags": "[parameters('tags')]",
               "dependsOn": [
                 "[resourceId('Microsoft.OperationalInsights/workspaces', format('law-{0}', variables('resourceToken')))]"
-              ]
-            },
-            {
-              "condition": "[not(empty(parameters('principalId')))]",
-              "type": "Microsoft.Authorization/roleAssignments",
-              "apiVersion": "2022-04-01",
-              "scope": "[format('Microsoft.App/managedEnvironments/{0}', format('cae-{0}', variables('resourceToken')))]",
-              "name": "[guid(resourceId('Microsoft.App/managedEnvironments', format('cae-{0}', variables('resourceToken'))), parameters('principalId'), subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c'))]",
-              "properties": {
-                "principalId": "[parameters('principalId')]",
-                "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]"
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.App/managedEnvironments', format('cae-{0}', variables('resourceToken')))]"
               ]
             }
           ],
