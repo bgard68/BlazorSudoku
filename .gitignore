@@ -635,3 +635,7 @@ appsettings.*.json
 !appsettings.json
 !appsettings.Development.json
 .azure
+
+# Bicep build artifacts
+infra/*.json
+!infra/*.parameters.json
