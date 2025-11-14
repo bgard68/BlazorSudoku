@@ -1,4 +1,9 @@
 <Solution>
+  <Folder Name="/infra/">
+    <File Path="infra/main.bicep" />
+    <File Path="infra/main.parameters.json" />
+    <File Path="infra/resources.bicep" />
+  </Folder>
   <Project Path="Net10SudokuApp.ApiService/Net10SudokuApp.ApiService.csproj" />
   <Project Path="Net10SudokuApp.AppHost/Net10SudokuApp.AppHost.csproj" />
   <Project Path="Net10SudokuApp.ServiceDefaults/Net10SudokuApp.ServiceDefaults.csproj" />

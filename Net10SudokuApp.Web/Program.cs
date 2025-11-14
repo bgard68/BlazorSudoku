@@ -5,8 +5,11 @@ using Net10SudokuApp.Web.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add service defaults & Aspire client integrations.
-builder.AddServiceDefaults();
+// Add service defaults & Aspire client integrations (only in development)
+if (builder.Environment.IsDevelopment())
+{
+    builder.AddServiceDefaults();
+}
 
 // Add services to the container
 builder.Services.AddRazorComponents()
@@ -17,10 +20,12 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddOutputCache();
 
+// Configure API client for all environments, using environment-based URL
+var apiServiceUrl = builder.Configuration["ApiService:BaseUrl"] ?? "https://apiservice";
 builder.Services.AddHttpClient<WeatherApiClient>(client =>
-    {
-        client.BaseAddress = new("https+http://apiservice");
-    });
+{
+    client.BaseAddress = new Uri(apiServiceUrl);
+});
 
 // Register Sudoku services
 builder.Services.AddSingleton<ISudokuGenerator, SudokuService>();
@@ -48,8 +53,11 @@ app.UseOutputCache();
 // 1. Static assets (CSS, JS, etc.)
 app.MapStaticAssets();
 
-// 2. Default endpoints (health checks, etc.)
-app.MapDefaultEndpoints();
+// 2. Default endpoints (health checks, etc.) - only in development
+if (app.Environment.IsDevelopment())
+{
+    app.MapDefaultEndpoints();
+}
 
 // 3. Razor Pages (for .cshtml files) - must come before RazorComponents to avoid conflicts
 app.MapRazorPages();
