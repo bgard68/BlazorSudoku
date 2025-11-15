@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="@Assets["Net10SudokuApp.Web.styles.css"]" />
     <link rel="stylesheet" href="/css/sudoku.css" />
     <link rel="stylesheet" href="/css/home.css" />
+    <link rel="stylesheet" href="/css/navmenu-neon.css" />
     <ImportMap />
     <link rel="icon" type="image/png" href="favicon.png" />
     <HeadOutlet />
@@ -18,7 +19,8 @@
 <body>
     <Routes />
     
-    <!-- Diagnostic banner that disappears when Blazor connects -->
+    @* Diagnostic banner and debug scripts commented out for production-like runs. Keep them in source for quick re-enable during troubleshooting. *@
+    @*
     <div id="blazor-status" style="position: fixed; top: 0; left: 0; right: 0; background: #ff6b6b; color: white; padding: 10px; text-align: center; z-index: 9999; font-family: Arial;">
         ⚠️ Waiting for Blazor Server to connect... If this doesn't disappear, check browser console (F12)
     </div>
@@ -64,13 +66,17 @@
             }
         }, 100);
     </script>
+    *@
     
     <script src="_framework/blazor.web.js" onerror="console.error('Failed to load blazor.web.js')"></script>
     
+    @* Verification log commented out *@
+    @*
     <script>
         // Verify script loaded
         console.log('%c[Blazor Diagnostics] blazor.web.js script tag processed', 'color: blue;');
     </script>
+    *@
 </body>
 
 </html>

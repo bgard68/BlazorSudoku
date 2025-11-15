@@ -1,0 +1,245 @@
+/* Global neon styles for NavMenu - overrides everything */
+
+/* Title glow */
+.navbar-brand.neon-title {
+    font-size: 0.95rem !important;
+    font-weight: 900 !important;
+    letter-spacing: 2px !important;
+    color: #000 !important;
+    white-space: nowrap !important;
+    text-shadow:
+        0 0 2px #00ffe5,
+        0 0 5px #00ffe5,
+        0 0 10px #00ffe5,
+        0 0 20px #00ffe5,
+        0 0 40px #00ffe5,
+        0 0 80px #00ffe5,
+        1px 1px 0 #00ffe5,
+        -1px -1px 0 #00ffe5,
+        1px -1px 0 #00ffe5,
+        -1px 1px 0 #00ffe5 !important;
+    animation: titlePulse 2s ease-in-out infinite, titleFlicker 3s linear infinite !important;
+}
+
+@keyframes titlePulse {
+    0%, 100% {
+        text-shadow:
+            0 0 2px #00ffe5,
+            0 0 5px #00ffe5,
+            0 0 10px #00ffe5,
+            0 0 20px #00ffe5,
+            0 0 40px #00ffe5,
+            0 0 80px #00ffe5,
+            1px 1px 0 #00ffe5,
+            -1px -1px 0 #00ffe5,
+            1px -1px 0 #00ffe5,
+            -1px 1px 0 #00ffe5;
+    }
+    50% {
+        text-shadow:
+            0 0 5px #00ffe5,
+            0 0 10px #00ffe5,
+            0 0 20px #00ffe5,
+            0 0 40px #00ffe5,
+            0 0 80px #00ffe5,
+            0 0 120px #00ffe5,
+            2px 2px 0 #00ffe5,
+            -2px -2px 0 #00ffe5,
+            2px -2px 0 #00ffe5,
+            -2px 2px 0 #00ffe5;
+    }
+}
+
+@keyframes titleFlicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.9; }
+}
+
+/* Green neon link */
+.nav-link.neon-green {
+    color: #00ff80 !important;
+    text-shadow:
+        0 0 2px #00ff80,
+        0 0 5px #00ff80,
+        0 0 10px #00ff80,
+        0 0 20px #00ff80,
+        0 0 40px #00ff80,
+        0 0 80px #00ff80 !important;
+    animation: glowPulseGreen 1.5s ease-in-out infinite, flickerLight 4s linear infinite !important;
+}
+
+.neon-icon-green {
+    filter: drop-shadow(0 0 4px #00ff80) drop-shadow(0 0 8px #00ff80) drop-shadow(0 0 16px #00ff80) drop-shadow(0 0 32px #00ff80) !important;
+    animation: iconGlowGreen 2.5s ease-in-out infinite !important;
+}
+
+@keyframes glowPulseGreen {
+    0%, 100% {
+        text-shadow:
+            0 0 2px #00ff80,
+            0 0 5px #00ff80,
+            0 0 10px #00ff80,
+            0 0 20px #00ff80,
+            0 0 40px #00ff80,
+            0 0 80px #00ff80;
+    }
+    50% {
+        text-shadow:
+            0 0 5px #00ff80,
+            0 0 10px #00ff80,
+            0 0 20px #00ff80,
+            0 0 40px #00ff80,
+            0 0 80px #00ff80,
+            0 0 120px #00ff80;
+    }
+}
+
+@keyframes iconGlowGreen {
+    0%, 100% { filter: drop-shadow(0 0 4px #00ff80) drop-shadow(0 0 8px #00ff80) drop-shadow(0 0 16px #00ff80) drop-shadow(0 0 32px #00ff80); }
+    50% { filter: drop-shadow(0 0 8px #00ff80) drop-shadow(0 0 16px #00ff80) drop-shadow(0 0 32px #00ff80) drop-shadow(0 0 64px #00ff80); }
+}
+
+/* Cyan neon link */
+.nav-link.neon-cyan {
+    color: #00eaff !important;
+    text-shadow:
+        0 0 2px #00eaff,
+        0 0 5px #00eaff,
+        0 0 10px #00eaff,
+        0 0 20px #00eaff,
+        0 0 40px #00eaff,
+        0 0 80px #00eaff !important;
+    animation: glowPulseCyan 1.6s ease-in-out infinite, flickerLight 4.2s linear infinite !important;
+}
+
+.neon-icon-cyan {
+    filter: drop-shadow(0 0 4px #00eaff) drop-shadow(0 0 8px #00eaff) drop-shadow(0 0 16px #00eaff) drop-shadow(0 0 32px #00eaff) !important;
+    animation: iconGlowCyan 2.5s ease-in-out infinite !important;
+}
+
+@keyframes glowPulseCyan {
+    0%, 100% {
+        text-shadow:
+            0 0 2px #00eaff,
+            0 0 5px #00eaff,
+            0 0 10px #00eaff,
+            0 0 20px #00eaff,
+            0 0 40px #00eaff,
+            0 0 80px #00eaff;
+    }
+    50% {
+        text-shadow:
+            0 0 5px #00eaff,
+            0 0 10px #00eaff,
+            0 0 20px #00eaff,
+            0 0 40px #00eaff,
+            0 0 80px #00eaff,
+            0 0 120px #00eaff;
+    }
+}
+
+@keyframes iconGlowCyan {
+    0%, 100% { filter: drop-shadow(0 0 4px #00eaff) drop-shadow(0 0 8px #00eaff) drop-shadow(0 0 16px #00eaff) drop-shadow(0 0 32px #00eaff); }
+    50% { filter: drop-shadow(0 0 8px #00eaff) drop-shadow(0 0 16px #00eaff) drop-shadow(0 0 32px #00eaff) drop-shadow(0 0 64px #00eaff); }
+}
+
+/* Magenta neon link */
+.nav-link.neon-magenta {
+    color: #ff3bff !important;
+    text-shadow:
+        0 0 2px #ff3bff,
+        0 0 5px #ff3bff,
+        0 0 10px #ff3bff,
+        0 0 20px #ff3bff,
+        0 0 40px #ff3bff,
+        0 0 80px #ff3bff !important;
+    animation: glowPulseMagenta 1.4s ease-in-out infinite, flickerLight 3.8s linear infinite !important;
+}
+
+.neon-icon-magenta {
+    filter: drop-shadow(0 0 4px #ff3bff) drop-shadow(0 0 8px #ff3bff) drop-shadow(0 0 16px #ff3bff) drop-shadow(0 0 32px #ff3bff) !important;
+    animation: iconGlowMagenta 2.5s ease-in-out infinite !important;
+}
+
+@keyframes glowPulseMagenta {
+    0%, 100% {
+        text-shadow:
+            0 0 2px #ff3bff,
+            0 0 5px #ff3bff,
+            0 0 10px #ff3bff,
+            0 0 20px #ff3bff,
+            0 0 40px #ff3bff,
+            0 0 80px #ff3bff;
+    }
+    50% {
+        text-shadow:
+            0 0 5px #ff3bff,
+            0 0 10px #ff3bff,
+            0 0 20px #ff3bff,
+            0 0 40px #ff3bff,
+            0 0 80px #ff3bff,
+            0 0 120px #ff3bff;
+    }
+}
+
+@keyframes iconGlowMagenta {
+    0%, 100% { filter: drop-shadow(0 0 4px #ff3bff) drop-shadow(0 0 8px #ff3bff) drop-shadow(0 0 16px #ff3bff) drop-shadow(0 0 32px #ff3bff); }
+    50% { filter: drop-shadow(0 0 8px #ff3bff) drop-shadow(0 0 16px #ff3bff) drop-shadow(0 0 32px #ff3bff) drop-shadow(0 0 64px #ff3bff); }
+}
+
+/* Yellow neon link */
+.nav-link.neon-yellow {
+    color: #ffe800 !important;
+    text-shadow:
+        0 0 2px #ffe800,
+        0 0 5px #ffe800,
+        0 0 10px #ffe800,
+        0 0 20px #ffe800,
+        0 0 40px #ffe800,
+        0 0 80px #ffe800 !important;
+    animation: glowPulseYellow 1.7s ease-in-out infinite, flickerLight 4.5s linear infinite !important;
+}
+
+.neon-icon-yellow {
+    filter: drop-shadow(0 0 4px #ffe800) drop-shadow(0 0 8px #ffe800) drop-shadow(0 0 16px #ffe800) drop-shadow(0 0 32px #ffe800) !important;
+    animation: iconGlowYellow 2.5s ease-in-out infinite !important;
+}
+
+@keyframes glowPulseYellow {
+    0%, 100% {
+        text-shadow:
+            0 0 2px #ffe800,
+            0 0 5px #ffe800,
+            0 0 10px #ffe800,
+            0 0 20px #ffe800,
+            0 0 40px #ffe800,
+            0 0 80px #ffe800;
+    }
+    50% {
+        text-shadow:
+            0 0 5px #ffe800,
+            0 0 10px #ffe800,
+            0 0 20px #ffe800,
+            0 0 40px #ffe800,
+            0 0 80px #ffe800,
+            0 0 120px #ffe800;
+    }
+}
+
+@keyframes iconGlowYellow {
+    0%, 100% { filter: drop-shadow(0 0 4px #ffe800) drop-shadow(0 0 8px #ffe800) drop-shadow(0 0 16px #ffe800) drop-shadow(0 0 32px #ffe800); }
+    50% { filter: drop-shadow(0 0 8px #ffe800) drop-shadow(0 0 16px #ffe800) drop-shadow(0 0 32px #ffe800) drop-shadow(0 0 64px #ffe800); }
+}
+
+@keyframes flickerLight {
+    0%, 100% { opacity: 1; }
+    25% { opacity: 0.9; }
+    50% { opacity: 1; }
+    75% { opacity: 0.85; }
+}
+
+/* Hover effects */
+.nav-link:hover {
+    transform: translateX(10px) scale(1.05) !important;
+    filter: brightness(1.5) !important;
+}

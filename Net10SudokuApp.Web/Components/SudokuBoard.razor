@@ -26,6 +26,14 @@
                 Hard
             </button>
         </div>
+
+        @* Action buttons row placed under difficulty buttons as requested *@
+        <div class="action-buttons-row mt-2">
+            <button type="button" class="btn-action btn-hint" @onclick="Hint" disabled="@(!HasSelection)">Hint</button>
+            <button type="button" class="btn-action btn-validate" @onclick="ValidateBoard">Validate</button>
+            <button type="button" class="btn-action btn-solve" @onclick="SolvePuzzle">Solve</button>
+            <button type="button" class="btn-action btn-clear-all" @onclick="ClearAllUserEntries">Clear All</button>
+        </div>
     </div>
 
     <div class="game-area">
@@ -60,39 +68,19 @@
         </div>
 
         <div class="action-buttons-vertical">
-            <button type="button" class="btn-action btn-hint" @onclick="Hint" disabled="@(!HasSelection)">
-                Hint
-            </button>
-            <button type="button" class="btn-action btn-validate" @onclick="ValidateBoard">
-                Validate
-            </button>
-            <button type="button" class="btn-action btn-solve" @onclick="SolvePuzzle">
-                Solve
-            </button>
-            <button type="button" class="btn-action btn-clear-all" @onclick="ClearAllUserEntries">
-                Clear All
-            </button>
+            <div class="digit-buttons mb-2">
+                @for (int n = 1; n <= 9; n++)
+                {
+                    var num = n;
+                    <button type="button" class="btn btn-outline-dark me-1" @onclick="@(() => PlaceNumber(num))" disabled="@(!HasSelection)">@num</button>
+                }
+                <button type="button" class="btn btn-outline-warning ms-2" @onclick="ClearSelected" disabled="@(!HasSelection)">Clear</button>
+            </div>
+
+            @* Vertical action area no longer contains Hint/Validate/Solve/Clear All - moved above *@
         </div>
     </div>
 
-    <div class="digit-buttons mt-3">
-        @for (int n = 1; n <= 9; n++)
-        {
-            var num = n;
-            <button type="button" class="btn btn-outline-dark me-1" @onclick="@(() => PlaceNumber(num))" disabled="@(!HasSelection)">@num</button>
-        }
-        <button type="button" class="btn btn-outline-warning ms-2" @onclick="ClearSelected" disabled="@(!HasSelection)">Clear</button>
-    </div>
-    <div>
-        <br /> 
-         <br /> 
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-    </div>
     @if (_showKeyboardHint)
     {
         <div class="keyboard-hint">

@@ -237,25 +237,31 @@
     background: linear-gradient(135deg, #ff8787 0%, #ff6b6b 100%);
 }
 
-/* Action Buttons - Vertical Stack on Right */
+/* Action Buttons - Horizontal row on desktop, stacked on small screens */
 .action-buttons-vertical {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-    min-width: 110px;
+    flex-direction: row; /* changed to horizontal */
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-start;
+    min-width: 0;
+    flex-wrap: nowrap;
 }
 
 .btn-action {
-    padding: 12px 18px;
+    padding: 8px 10px; /* smaller padding */
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.85rem; /* slightly smaller text */
     border: 2px solid transparent;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     text-transform: capitalize;
-    width: 100%;
+    width: auto; /* allow buttons to size to content */
+    min-width: 64px;
+    max-width: 140px;
     text-align: center;
+    white-space: nowrap;
 }
 
 .btn-action:disabled {
@@ -264,6 +270,64 @@
     transform: none !important;
 }
 
+/* Keep hover/active effects but scaled for smaller buttons */
+.btn-action:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.10);
+}
+
+.btn-action:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+}
+
+/* Ensure digit buttons remain compact in the vertical action area */
+.digit-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.digit-buttons button {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.15s ease-in-out;
+}
+
+/* Responsive adjustments: stack buttons on narrow screens */
+@media (max-width: 480px) {
+    .action-buttons-vertical {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .btn-action {
+        min-width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .digit-buttons button {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Action Buttons Row under difficulty buttons */
+.action-buttons-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Professional color themes for action buttons */
 .btn-hint {
     background: linear-gradient(135deg, #15aabf 0%, #0c8599 100%);
     color: white;
@@ -272,20 +336,6 @@
 
 .btn-hint:hover:not(:disabled) {
     background: linear-gradient(135deg, #1098ad 0%, #087f91 100%);
-    transform: translateX(-3px);
-    box-shadow: -4px 4px 12px rgba(21, 170, 191, 0.3);
-}
-
-.btn-solve {
-    background: linear-gradient(135deg, #845ef7 0%, #7048e8 100%);
-    color: white;
-    border-color: #7048e8;
-}
-
-.btn-solve:hover:not(:disabled) {
-    background: linear-gradient(135deg, #9775fa 0%, #7950f2 100%);
-    transform: translateX(-3px);
-    box-shadow: -4px 4px 12px rgba(132, 94, 247, 0.3);
 }
 
 .btn-validate {
@@ -296,8 +346,6 @@
 
 .btn-validate:hover:not(:disabled) {
     background: linear-gradient(135deg, #91a7ff 0%, #748ffc 100%);
-    transform: translateX(-3px);
-    box-shadow: -4px 4px 12px rgba(92, 124, 250, 0.3);
 }
 
 .btn-clear-all {
@@ -308,144 +356,4 @@
 
 .btn-clear-all:hover:not(:disabled) {
     background: linear-gradient(135deg, #ff6b6b 0%, #e03131 100%);
-    transform: translateX(-3px);
-    box-shadow: -4px 4px 12px rgba(240, 62, 62, 0.3);
-}
-
-.digit-buttons {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 6px;
-}
-
-.digit-buttons button {
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    font-weight: 600;
-    transition: all 0.2s ease-in-out;
-}
-
-.digit-buttons button:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-.digit-buttons button:active:not(:disabled) {
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-/* Keyboard hint overlay */
-.keyboard-hint {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.85);
-    color: white;
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    z-index: 1000;
-    animation: slideIn 0.4s ease-out;
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-.keyboard-hint kbd {
-    background: #333;
-    padding: 3px 6px;
-    border-radius: 3px;
-    border: 1px solid #555;
-    font-family: monospace;
-    margin: 0 2px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .sudoku-container {
-        max-width: 100%;
-        padding: 0 10px;
-    }
-
-    .game-area {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .sudoku-grid {
-        max-width: 100%;
-        width: 100%;
-    }
-
-    .action-buttons-vertical {
-        flex-direction: row;
-        flex-wrap: wrap;
-        width: 100%;
-        min-width: auto;
-        justify-content: center;
-    }
-
-    .btn-action {
-        flex-grow: 1;
-        flex-basis: calc(50% - 6px); /* Two buttons per row */
-    }
-
-    .btn-action:hover:not(:disabled) {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .digit-buttons {
-        margin-top: 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    .controls {
-        flex-direction: column;
-        width: 100%;
-    }
-    
-    .difficulty-buttons {
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-    
-    .btn-difficulty {
-        flex: 1;
-        min-width: 100px;
-    }
-
-    .action-buttons-vertical {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .btn-action {
-        min-width: 100%;
-        margin-bottom: 10px;
-    }
-
-    .digit-buttons button {
-        width: 36px;
-        height: 36px;
-        font-size: 0.9rem;
-    }
-
-    .sudoku-cell {
-        font-size: 1rem;
-    }
 }
