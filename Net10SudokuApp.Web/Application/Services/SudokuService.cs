@@ -111,7 +111,7 @@ namespace Net10SudokuApp.Web.Application.Services
             return SolveInternal(puzzle.Grid);
         }
 
-        public SudokuPuzzle SolveCopy(SudokuPuzzle puzzle)
+        public SudokuPuzzle? SolveCopy(SudokuPuzzle puzzle)
         {
             var copy = puzzle.Clone();
             if (SolveInternal(copy.Grid))
