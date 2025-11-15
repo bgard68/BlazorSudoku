@@ -325,6 +325,59 @@
     box-shadow: 0 6px 20px rgba(0,0,0,0.3);
 }
 
+/* Sidebar background image and transparent background overrides */
+.sidebar {
+    /* Ensure pseudo-element overlay positions correctly */
+    position: relative;
+
+    /* Ensure sidebar is tall enough for background to be visible */
+    min-height: 100vh;
+
+    /* Use only the SVG as background */
+    background-image: url('/images/sudokunavmenu.svg') !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+
+    /* No fallback color — only the SVG should be visible */
+    background-color: transparent !important;
+
+    color: #fff;
+}
+
+/* Remove any overlay so the SVG displays without added colors */
+.sidebar::before {
+    content: none;
+}
+
+/* Make sure inner nav content sits above overlay */
+.sidebar > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Nav link colors on image background */
+.sidebar .nav-link {
+    color: rgba(255,255,255,0.95);
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    background: rgba(255,255,255,0.06);
+    border-left: 4px solid #51cf66; /* accent when active */
+}
+
+/* Responsive adjustment: disable background-image on very small screens to improve readability and performance */
+@media (max-width: 480px) {
+    .sidebar {
+        background-image: none !important;
+        background: rgba(31,41,47,0.85); /* subtle fallback color for very small screens */
+    }
+    .sidebar::before { display: none; }
+}
+
+/* Debug: if image still doesn't show, open browser devtools -> Network and look for request to /images/sudokunavmenu.svg (check 200 or 404) */
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .hero-section {

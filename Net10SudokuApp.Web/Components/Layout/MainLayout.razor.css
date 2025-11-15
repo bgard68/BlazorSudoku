@@ -8,8 +8,17 @@ main {
     flex: 1;
 }
 
+/* Allow background-image to show while keeping background color transparent */
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-color: transparent !important;
+}
+
+.sidebar-bg {
+    background-image: url('/images/sudokunavmenu.svg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: transparent;
 }
 
 .top-row {

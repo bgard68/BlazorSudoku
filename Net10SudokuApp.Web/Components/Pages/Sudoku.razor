@@ -6,7 +6,8 @@
 <div class="container mt-4">
     <h3>Sudoku</h3>
     
-    <!-- Critical diagnostic -->
+    @* Critical diagnostic - commented out *@
+    @*
     <div class="alert @(isInteractive ? "alert-success" : "alert-danger")">
         <strong>Component Status:</strong> 
         @if (isInteractive)
@@ -20,7 +21,10 @@
         <br />
         <small>Render count: @renderCount | OnAfterRender called: @afterRenderCalled</small>
     </div>
+    *@
     
+    @* Quick Test - commented out *@
+    @*
     <div class="alert alert-info">
         <strong>Quick Test:</strong> 
         <button class="btn btn-sm btn-primary" @onclick="QuickTest">Test Interactivity (Clicks: @testClicks)</button>
@@ -29,7 +33,10 @@
             <span class="text-success ms-2">? Blazor Server is working!</span>
         }
     </div>
+    *@
 
+    @* Debug Info - commented out *@
+    @*
     <div class="alert alert-warning">
         <strong>Debug Info:</strong> 
         @if (testClicks == 0)
@@ -47,6 +54,7 @@
             <span>Interactivity is working! Sudoku controls should work too.</span>
         }
     </div>
+    *@
 
     <SudokuBoard />
 </div>
@@ -59,7 +67,7 @@
     
     protected override void OnInitialized()
     {
-        Console.WriteLine("[Sudoku.razor] OnInitialized called");
+        // Console.WriteLine("[Sudoku.razor] OnInitialized called");
         isInteractive = true; // If this runs, component initialized
     }
     
@@ -70,13 +78,13 @@
         
         if (firstRender)
         {
-            Console.WriteLine("[Sudoku.razor] First render complete");
+            // Console.WriteLine("[Sudoku.razor] First render complete");
         }
     }
     
     private void QuickTest()
     {
         testClicks++;
-        Console.WriteLine($"[Sudoku.razor] Quick test clicked: {testClicks}");
+        // Console.WriteLine($"[Sudoku.razor] Quick test clicked: {testClicks}");
     }
 }

@@ -10,4 +10,10 @@
     <ProjectReference Include="..\Net10SudokuApp.ServiceDefaults\Net10SudokuApp.ServiceDefaults.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\images\sudokunavmenu.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
